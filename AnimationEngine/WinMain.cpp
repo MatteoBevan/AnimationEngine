@@ -6,6 +6,7 @@
 #include <Windows.h>
 #include <iostream>
 #include "Application.h"
+#include "vec3.h"
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, PSTR, int);
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);

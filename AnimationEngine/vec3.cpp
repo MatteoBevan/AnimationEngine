@@ -1,50 +1,50 @@
 #include "vec3.h"
 #include <math.h>
 
-vec3 vec3::operator+(const vec3& r) const
+vec3 operator+(const vec3& v, const vec3& r)
 {
-	return vec3(x + r.x, y + r.y, z + r.z);
+	return vec3(v.x + r.x, v.y + r.y, v.z + r.z);
 }
 
-vec3 vec3::operator-(const vec3& r) const
+vec3 operator-(const vec3& v, const vec3& r)
 {
-	return vec3(x - r.x, y - r.y, z - r.z);
+	return vec3(v.x - r.x, v.y - r.y, v.z - r.z);
 }
 
-vec3 vec3::operator*(const float& f) const
+vec3 operator*(const vec3& v, const float& f)
 {
-	return vec3(x * f, y * f, z * f);
+	return vec3(v.x * f, v.y * f, v.z * f);
 }
 
-vec3 vec3::operator*(const vec3& r) const
+vec3 operator*(const vec3& v, const vec3& r)
 {
-	return vec3(x * r.x, y * r.y, z * r.z);
+	return vec3(v.x * r.x, v.y * r.y, v.z * r.z);
 }
 
-bool vec3::operator==(const vec3& r) const
+bool operator==(const vec3& v, const vec3& r)
 { 
-	vec3 diff(*this - r); 
-	return diff.lenSq() < VEC3_EPSILON; 
+	vec3 diff(v - r); 
+	return lenSq(diff) < VEC3_EPSILON;
 } 
 
-bool vec3::operator!=(const vec3& r) const
+bool operator!=(const vec3& v, const vec3& r)
 { 
-	return !(*this == r);
+	return !(v == r);
 }
 
-float vec3::dot(const vec3& r) const
+float dot(const vec3& v, const vec3& r)
 {
-	return x * r.x + y * r.y + z * r.z; 
+	return v.x * r.x + v.y * r.y + v.z * r.z;
 }
 
-float vec3::lenSq() const
+float lenSq(const vec3& v)
 { 
-	return x * x + y * y + z * z; 
+	return v.x * v.x + v.y * v.y + v.z * v.z;
 }
 
-float vec3::len() const
+float len(const vec3& v)
 { 
-	float lenSqRes = lenSq();
+	float lenSqRes = lenSq(v);
 	
 	if (lenSqRes < VEC3_EPSILON)
 	{ 
@@ -54,9 +54,9 @@ float vec3::len() const
 	return sqrtf(lenSqRes);
 }
 
-void vec3::normalize()
+void normalize(vec3& v)
 {
-	float lenSqRes = lenSq();
+	float lenSqRes = lenSq(v);
 	
 	if (lenSqRes < VEC3_EPSILON)
 	{ 
@@ -64,36 +64,36 @@ void vec3::normalize()
 	} 
 	
 	float invLen = 1.0f / sqrtf(lenSqRes);
-	x *= invLen; 
-	y *= invLen; 
-	z *= invLen;
+	v.x *= invLen;
+	v.y *= invLen;
+	v.z *= invLen;
 }
 
-vec3 vec3::normalized() const
+vec3 normalized(const vec3& v)
 { 
-	float lenSqRes = lenSq();
+	float lenSqRes = lenSq(v);
 	
 	if (lenSqRes < VEC3_EPSILON)
 	{ 
-		return *this; 
+		return v; 
 	} 
 	
 	float invLen = 1.0f / sqrtf(lenSqRes);
 	
-	return vec3(x * invLen, y * invLen, z * invLen); 
+	return vec3(v.x * invLen, v.y * invLen, v.z * invLen);
 }
 
-float vec3::angle(vec3& r) const
+float angle(const vec3& v, vec3& r)
 { 
-	float sqMagL = lenSq(); 
-	float sqMagR = r.lenSq(); 
+	float sqMagL = lenSq(v); 
+	float sqMagR = lenSq(r); 
 	
 	if (sqMagL < VEC3_EPSILON || sqMagR < VEC3_EPSILON) 
 	{ 
 		return 0.0f; 
 	} 
 	
-	float dotRes = dot(r);
+	float dotRes = dot(v, r);
 	
 	float len = sqrtf(sqMagL) * sqrtf(sqMagR); 
 	
@@ -104,43 +104,43 @@ float vec3::angle(vec3& r) const
 	return acosf(dotRes / len);
 }
 
-vec3 vec3::project(const vec3& b) const
+vec3 project(const vec3& v, const vec3& b)
 { 
-	float magBSq = b.len(); 
+	float magBSq = len(b); 
 	
 	if (magBSq < VEC3_EPSILON) 
 	{ 
 		return vec3(); 
 	} 
 	
-	float scale = dot(b) / magBSq; 
+	float scale = dot(v, b) / magBSq; 
 	return b * scale; 
 }
 
-vec3 vec3::reject(const vec3& b) const
+vec3 reject(const vec3& v, const vec3& b)
 {
-	vec3 projection = project(b); 
-	return *this - projection;
+	vec3 projection = project(v, b); 
+	return v - projection;
 }
 
-vec3 vec3::reflect(const vec3& b) const
+vec3 reflect(const vec3& v, const vec3& b)
 {
-	float magBSq = b.len(); 
+	float magBSq = len(b); 
 	
 	if (magBSq < VEC3_EPSILON) 
 	{ 
 		return vec3(); 
 	} 
 	
-	float scale = dot(b) / magBSq; 
+	float scale = dot(v,b) / magBSq; 
 	vec3 proj2 = b * (scale * 2); 
 	
-	return *this - proj2;
+	return v - proj2;
 }
 
-vec3 vec3::cross(const vec3& r) const
+vec3 cross(const vec3& v, const vec3& r)
 { 
-	return vec3(y * r.z - z * r.y, z * r.x - x * r.z, x * r.y - y * r.x); 
+	return vec3(v.y * r.z - v.z * r.y, v.z * r.x - v.x * r.z, v.x * r.y - v.y * r.x);
 }
 
 vec3 lerp(const vec3& s, const vec3& e, float t) 
@@ -155,9 +155,9 @@ vec3 slerp(const vec3& s, const vec3& e, float t)
 		return lerp(s, e, t); 
 	} 
 	
-	vec3 from = s.normalized(); 
-	vec3 to = e.normalized(); 
-	float theta = from.angle(to);
+	vec3 from = normalized(s); 
+	vec3 to = normalized(e); 
+	float theta = angle(from, to);
 	float sin_theta = sinf(theta); 
 	float a = sinf((1.0f - t) * theta) / sin_theta; 
 	float b = sinf(t * theta) / sin_theta;
@@ -168,5 +168,5 @@ vec3 slerp(const vec3& s, const vec3& e, float t)
 vec3 nlerp(const vec3& s, const vec3& e, float t) 
 {
 	vec3 linear(s.x + (e.x - s.x) * t,	s.y + (e.y - s.y) * t, s.z + (e.z - s.z) * t); 
-	return linear.normalized();
+	return normalized(linear);
 }

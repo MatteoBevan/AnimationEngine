@@ -130,11 +130,15 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="glad.h" />
     <ClInclude Include="khrplatform.h" />
+    <ClInclude Include="mat4.h" />
+    <ClInclude Include="vec2.h" />
     <ClInclude Include="vec3.h" />
+    <ClInclude Include="vec4.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="glad.c" />
+    <ClCompile Include="mat4.cpp" />
     <ClCompile Include="vec3.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
