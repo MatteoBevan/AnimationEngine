@@ -47,3 +47,6 @@ float determinant(const mat4& m);
 mat4 adjugate(const mat4& m);
 mat4 inverse(const mat4& m);
 void invert(mat4& m);
+mat4 perspective(float fov, float aspect, float n, float f);
+mat4 ortho(float l, float r, float b, float t, float n, float f);
+mat4 lookAt(const vec3& position, const vec3& target, const vec3& up);

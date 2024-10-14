@@ -7,6 +7,7 @@
 #include <iostream>
 #include "Application.h"
 #include "vec3.h"
+#include "Sample.h"
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, PSTR, int);
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -31,7 +32,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 {
 	// Create Window
 
-	gApplication = new Application();
+	// loading the example
+	gApplication = new Sample();
 
 	WNDCLASSEX wndclass;
 	wndclass.cbSize = sizeof(WNDCLASSEX);

@@ -68,12 +68,12 @@ float TransformTrack::GetEndTime()
 
 	if (mPosition.Size() > 1)
 	{
-		result = mPosition.GetStartTime();
+		result = mPosition.GetEndTime();
 	}
 
 	if (mRotation.Size() > 1)
 	{
-		float rotationStart = mRotation.GetStartTime();
+		float rotationStart = mRotation.GetEndTime();
 
 		if (rotationStart > result)
 		{
@@ -83,7 +83,7 @@ float TransformTrack::GetEndTime()
 
 	if (mScale.Size() > 1)
 	{
-		float scaleStart = mScale.GetStartTime();
+		float scaleStart = mScale.GetEndTime();
 
 		if (scaleStart > result)
 		{
