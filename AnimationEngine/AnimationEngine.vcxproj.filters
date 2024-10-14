@@ -117,6 +117,9 @@
     <ClInclude Include="Sample.h">
       <Filter>Header Files\Debug</Filter>
     </ClInclude>
+    <ClInclude Include="Skeleton.h">
+      <Filter>Header Files\Animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -184,6 +187,9 @@
     </ClCompile>
     <ClCompile Include="Sample.cpp">
       <Filter>Source Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Skeleton.cpp">
+      <Filter>Source Files\Animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

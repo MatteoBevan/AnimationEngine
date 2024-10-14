@@ -5,6 +5,7 @@
 #include <vector>
 #include "Track.h"
 #include "Clip.h"
+#include "Skeleton.h"
 
 cgltf_data* LoadGLTFFile(const char* path)
 {
@@ -253,4 +254,67 @@ std::vector<Clip> LoadAnimationClips(cgltf_data* data)
 	}
 
 	return result;
+}
+
+Pose LoadBindPose(cgltf_data* data) 
+{
+	Pose restPose = LoadRestPose(data);
+	unsigned int numBones = restPose.Size();
+
+	std::vector<Transform> globalBindPose(numBones);
+	for (unsigned int i = 0; i < numBones; ++i) 
+	{
+		globalBindPose[i] = restPose.GetGlobalTransform(i);
+	}
+
+	unsigned int numSkins = (unsigned int)data->skins_count;
+	
+	for (unsigned int i = 0; i < numSkins; ++i) 
+	{
+		cgltf_skin* skin = &(data->skins[i]);
+		std::vector<float> invBindAccessor;
+		GLTFHelpers::GetScalarValues(invBindAccessor, 16, *skin->inverse_bind_matrices);
+
+		unsigned int numJoints = (unsigned int)skin->joints_count;
+		for (unsigned int j = 0; j < numJoints; ++j) 
+		{
+			// Read the inverse bind matrix of the joint
+			float* matrix = &(invBindAccessor[j * 16]);
+			mat4 invBindMatrix = mat4(matrix);
+		
+			// invert, convert to transform
+			mat4 bindMatrix = inverse(invBindMatrix);
+			Transform bindTransform = mat4ToTransform(bindMatrix);
+			
+			// Set that transform in the globalBindPose.
+			cgltf_node* jointNode = skin->joints[j];
+			int jointIndex = GLTFHelpers::GetNodeIndex(jointNode, data->nodes, numBones);
+			globalBindPose[jointIndex] = bindTransform;
+		} // end for each joint
+	} // end for each skin
+	
+	// Convert the global bind pose to a regular bind pose
+	Pose bindPose = restPose;
+	for (unsigned int i = 0; i < numBones; ++i) 
+	{
+		Transform current = globalBindPose[i];
+		int p = bindPose.GetParent(i);
+		if (p >= 0) 
+		{ // Bring into parent space
+			Transform parent = globalBindPose[p];
+			current = combine(inverse(parent), current);
+		}
+		bindPose.SetLocalTransform(i, current);
+	}
+
+	return bindPose;
+} 
+
+Skeleton LoadSkeleton(cgltf_data* data) 
+{
+	return Skeleton(
+		LoadRestPose(data),
+		LoadBindPose(data),
+		LoadJointNames(data)
+	);
 }

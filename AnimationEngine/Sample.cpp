@@ -12,12 +12,17 @@ void Sample::Initialize() {
 	}
 
 	mRestPose = LoadRestPose(gltf);
+	mBindPose = LoadBindPose(gltf);
 	mClips = LoadAnimationClips(gltf);
 	FreeGLTFFile(gltf);
 
 	mRestPoseVisual = new DebugDraw();
 	mRestPoseVisual->FromPose(mRestPose);
 	mRestPoseVisual->UpdateOpenGLBuffers();
+
+	mBindPoseVisual = new DebugDraw();
+	mBindPoseVisual->FromPose(mBindPose);
+	mBindPoseVisual->UpdateOpenGLBuffers();
 
 	mCurrentClip = 0;
 	mCurrentPose = mRestPose;
@@ -51,6 +56,7 @@ void Sample::Render(float inAspectRatio)
 	mat4 mvp = projection * view; // No model
 
 	mRestPoseVisual->Draw(DebugDrawMode::Lines, vec3(1, 0, 0), mvp);
+	mBindPoseVisual->Draw(DebugDrawMode::Lines, vec3(1, 1, 0), mvp);
 	mCurrentPoseVisual->UpdateOpenGLBuffers();
 	mCurrentPoseVisual->Draw(DebugDrawMode::Lines, vec3(0, 1, 1), mvp);
 }
@@ -58,6 +64,7 @@ void Sample::Render(float inAspectRatio)
 void Sample::Shutdown() 
 {
 	delete mRestPoseVisual;
+	delete mBindPoseVisual;
 	delete mCurrentPoseVisual;
 	mClips.clear();
 }

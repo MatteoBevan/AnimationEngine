@@ -13,10 +13,12 @@ class Sample : public Application {
 protected:
 	Pose mRestPose;
 	Pose mCurrentPose;
+	Pose mBindPose;
 	std::vector<Clip> mClips;
 	unsigned int mCurrentClip;
 	float mPlaybackTime;
 	DebugDraw* mRestPoseVisual;
+	DebugDraw* mBindPoseVisual;
 	DebugDraw* mCurrentPoseVisual;
 public:
 	void Initialize();

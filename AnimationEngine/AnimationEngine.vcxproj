@@ -144,6 +144,7 @@
     <ClInclude Include="quat.h" />
     <ClInclude Include="Sample.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="Skeleton.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Track.h" />
@@ -169,6 +170,7 @@
     <ClCompile Include="quat.cpp" />
     <ClCompile Include="Sample.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Skeleton.cpp" />
     <ClCompile Include="stb_image.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Track.cpp" />
