@@ -120,6 +120,9 @@
     <ClInclude Include="Skeleton.h">
       <Filter>Header Files\Animation</Filter>
     </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -191,9 +194,13 @@
     <ClCompile Include="Skeleton.cpp">
       <Filter>Source Files\Animation</Filter>
     </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="static.vert" />
     <None Include="lit.frag" />
+    <None Include="skinned.vert" />
   </ItemGroup>
 </Project>

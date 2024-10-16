@@ -82,8 +82,10 @@ void DebugDraw::FromPose(Pose& pose)
 {
 	unsigned int requiredVerts = 0;
 	unsigned int numJoints = pose.Size();
-	for (unsigned int i = 0; i < numJoints; ++i) {
-		if (pose.GetParent(i) < 0) {
+	for (unsigned int i = 0; i < numJoints; ++i) 
+	{
+		if (pose.GetParent(i) < 0) 
+		{
 			continue;
 		}
 
@@ -91,7 +93,8 @@ void DebugDraw::FromPose(Pose& pose)
 	}
 
 	mPoints.resize(requiredVerts);
-	for (unsigned int i = 0; i < numJoints; ++i) {
+	for (unsigned int i = 0; i < numJoints; ++i) 
+	{
 		if (pose.GetParent(i) < 0) {
 			continue;
 		}
@@ -107,18 +110,24 @@ void DebugDraw::Draw(DebugDrawMode mode, const vec3& color, const mat4& mvp)
 	Uniform<mat4>::Set(mShader->GetUniform("mvp"), mvp);
 	Uniform<vec3>::Set(mShader->GetUniform("color"), color);
 	mAttribs->BindTo(mShader->GetAttribute("position"));
-	if (mode == DebugDrawMode::Lines) {
+
+	if (mode == DebugDrawMode::Lines) 
+	{
 		::Draw(Size(), DrawMode::Lines);
 	}
-	else if (mode == DebugDrawMode::Loop) {
+	else if (mode == DebugDrawMode::Loop) 
+	{
 		::Draw(Size(), DrawMode::LineLoop);
 	}
-	else if (mode == DebugDrawMode::Strip) {
+	else if (mode == DebugDrawMode::Strip) 
+	{
 		::Draw(Size(), DrawMode::LineStrip);
 	}
-	else {
+	else 
+	{
 		::Draw(Size(), DrawMode::Points);
 	}
+
 	mAttribs->UnBindFrom(mShader->GetAttribute("position"));
 	mShader->UnBind();
 }

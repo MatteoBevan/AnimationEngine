@@ -10,11 +10,13 @@
 #include <vector>
 #include "Pose.h"
 
-enum class DebugDrawMode {
+enum class DebugDrawMode 
+{
 	Lines, Loop, Strip, Points
 };
 
-class DebugDraw {
+class DebugDraw 
+{
 protected:
 	std::vector<vec3> mPoints;
 	Attribute<vec3>* mAttribs;
